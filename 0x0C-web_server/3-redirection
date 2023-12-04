@@ -9,5 +9,5 @@ echo "Hello World!" > /var/www/html/index.nginx-debian.html
 # 301 Redirect
 sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/oyendekingz permanent;/" /etc/nginx/sites-enabled/default
 
-# Ngix restart
-service nginx restart
+# Ngix start
+service nginx start
