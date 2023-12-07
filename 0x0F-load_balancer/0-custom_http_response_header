@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Script that configures Nginx server with a custom header
+apt-get -y update
+apt-get -y install nginx
+
+# Creating an index page
+echo "Hello Word!" | sudo tee /var/www/html/index.html
+
+# Redirection
+my_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/oyendekingz permanent;"
+
+sudo sed -i "s/server_name _;/$my_string/" /etc/nginx/sites-enabled/default
+
+# Custom Error Page
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+
+# Custom HTTP response header
+sudo sed -i "/server_name _/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default
+
+# Sytax error TEST
+sudo nginx -t
+
+# Restart
+sudo service nginx restart
